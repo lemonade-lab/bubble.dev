@@ -10,37 +10,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '18'
-
-      - name: Set system time and environment variables
-        run: |
-          echo "BEIJING_TIME=$(TZ=Asia/Shanghai date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
-          echo "TEAM_NAME='lemonade-lab'" >> $GITHUB_ENV
-          echo "WAREHOUSE_NAME='bubble.dev'" >> $GITHUB_ENV
-
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Install dependencies
+      - name: version 22
+        uses: actions/setup-node@v2
+        with:
+          node-version: '22'
+
+      - name: set system time
+        id: beijing_time
+        run: echo "BEIJING_TIME=$(TZ=Asia/Shanghai date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
+
+      - name: yarn install
         run: |
           rm -rf .npmrc
           npm install yarn -g
           yarn install --ignore-engines
 
-      - name: Build dependencies
-        run: |
-          yarn build
+      - name: build
+        run: yarn build
 
-      - name: Push docs to GitHub
+      - name: push docs
         run: |
-          cd ./build
+          cd build/
           git init
           git config --local user.email "ningmengchongshui@gmail.com"
           git config --local user.name "ningmengchongshui"
           git add -A
           git commit -m "自动打包 - ${{ env.BEIJING_TIME }}"
-          git remote add github https://${{ env.TEAM_NAME }}:${{ secrets.GH_TOKEN }}@github.com/${{ env.TEAM_NAME }}/${{ env.WAREHOUSE_NAME }}.git
+          git remote add github https://lvyjs:${{ secrets.GH_TOKEN }}@github.com/lemonade-lab/bubble.dev.git
           git push github HEAD:docs -f
