@@ -1,0 +1,8 @@
+{
+    "label": "开发文档",
+    "position": 1,
+    "link": {
+        "type": "generated-index",
+        "description": "Bubble 开放平台开发文档，包含认证、Gateway、Webhook 和 API 接口说明"
+    }
+}

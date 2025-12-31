@@ -1,0 +1,83 @@
+@import './tailwind.css';
+@import './root.css';
+@import './MessageBubble.css';
+@import 'animate.css';
+
+.footer__link-item,
+.navbar__item {
+  display: inline-flex;
+  align-items: center;
+}
+
+@media (max-width: 1183px) {
+  .navbar__item {
+    padding: 0.25rem;
+  }
+}
+
+@media (min-width: 540px) {
+  .navbar__link {
+    display: flex;
+  }
+
+  .dropdown > .navbar__link:after {
+    margin: auto;
+  }
+}
+
+@media (max-width: 1004px) {
+  .navbar__search-input {
+    width: 10em;
+  }
+
+  .navbar__item {
+    display: none;
+  }
+}
+
+.footer--dark {
+  background-image: linear-gradient(
+    to right,
+    rgb(55, 65, 81),
+    rgb(17, 24, 39),
+    rgb(0, 0, 0)
+  ) !important;
+}
+
+body::-webkit-scrollbar {
+  width: 0 !important;
+}
+
+aside {
+  scrollbar-color: #ffffff #f1f1f1;
+}
+
+.container-max {
+  margin: auto 0;
+  padding: 1rem 0;
+  max-width: 79rem;
+}
+
+.custom-spin {
+  @apply animate-spin;
+  animation-duration: 20s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.testimonials__header__hr {
+  border: none;
+  height: 1px;
+  background-color: #fff;
+  transition: transform 0.67s;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.testimonials--inview {
+  transform: scaleX(1);
+}
+
+.shadow-centent {
+  box-shadow: 0 0 0.3rem 0 #cbd5e1;
+}

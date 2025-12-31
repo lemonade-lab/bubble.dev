@@ -1,0 +1,7 @@
+:root {
+  --panel-background: rgb(59 130 246 / 0.5);
+}
+
+[data-theme='dark'] {
+  --panel-background: #363d4ec0;
+}
