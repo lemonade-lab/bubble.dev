@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkbubble_docs=self.webpackChunkbubble_docs||[]).push([[472],{5513:e=>{e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"0.0.1","permalink":"/bubble.dev/blog/2025/12/31/releases/v0.0.1","unlisted":false,"date":"2025-12-31T00:00:00.000Z"}]}')}}]);

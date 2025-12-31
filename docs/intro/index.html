@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-intro" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.5.2">
+<title data-rh="true">简介 | Bubble</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://bubble.alemonjs.com/bubble.dev/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://bubble.alemonjs.com/bubble.dev/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://bubble.alemonjs.com/bubble.dev/docs/intro"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="简介 | Bubble"><meta data-rh="true" name="description" content="欢迎使用 Bubble 机器人开放平台！本文档将帮助您快速了解和使用 Bubble 的机器人 API。"><meta data-rh="true" property="og:description" content="欢迎使用 Bubble 机器人开放平台！本文档将帮助您快速了解和使用 Bubble 的机器人 API。"><link data-rh="true" rel="canonical" href="https://bubble.alemonjs.com/bubble.dev/docs/intro"><link data-rh="true" rel="alternate" href="https://bubble.alemonjs.com/bubble.dev/docs/intro" hreflang="en"><link data-rh="true" rel="alternate" href="https://bubble.alemonjs.com/bubble.dev/docs/intro" hreflang="x-default"><link rel="alternate" type="application/rss+xml" href="/bubble.dev/blog/rss.xml" title="Bubble RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/bubble.dev/blog/atom.xml" title="Bubble Atom Feed"><link rel="stylesheet" href="/bubble.dev/assets/css/styles.6ef50549.css">
+<script src="/bubble.dev/assets/js/runtime~main.8c160eed.js" defer="defer"></script>
+<script src="/bubble.dev/assets/js/main.d4c6f959.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();t(null!==e?e:"light")}(),function(){try{const n=new URLSearchParams(window.location.search).entries();for(var[t,e]of n)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/bubble.dev/"><b class="navbar__title text--truncate">Bubble</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/bubble.dev/docs/intro">文档</a><a class="navbar__item navbar__link" href="/bubble.dev/blog">更新记录</a></div><div class="navbar__items navbar__items--right"><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="Switch between dark and light mode (currently light mode)" aria-label="Switch between dark and light mode (currently light mode)" aria-live="polite"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search searchBarContainer_NW3z" dir="ltr"><input placeholder="Search" aria-label="Search" class="navbar__search-input"><div class="loadingRing_RJI3 searchBarLoadingRing_YnHq"><div></div><div></div><div></div><div></div></div></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" href="/bubble.dev/docs/intro">简介</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/bubble.dev/docs/start">快速开始</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/bubble.dev/docs/architecture">架构说明</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/bubble.dev/docs/auth">认证与鉴权</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/bubble.dev/docs/gateway">WebSocket</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/bubble.dev/docs/webhook">Webhook</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/bubble.dev/docs/api">API 参考</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/bubble.dev/docs/events">事件参考</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/bubble.dev/docs/limits">速率限制与配额</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/bubble.dev/docs/markdown">Markdown</a></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs" itemscope="" itemtype="https://schema.org/BreadcrumbList"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/bubble.dev/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link" itemprop="name">简介</span><meta itemprop="position" content="1"></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>简介</h1></header>
+<p>欢迎使用 Bubble 机器人开放平台！本文档将帮助您快速了解和使用 Bubble 的机器人 API。</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="什么是-bubble">什么是 Bubble？<a href="#什么是-bubble" class="hash-link" aria-label="Direct link to 什么是 Bubble？" title="Direct link to 什么是 Bubble？">​</a></h2>
+<p>Bubble 是一个现代化的即时通讯和社区平台，提供完整的机器人开发能力。通过 Bubble 机器人 API，您可以创建功能强大的自动化应用，为用户提供丰富的服务体验。</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="核心概念">核心概念<a href="#核心概念" class="hash-link" aria-label="Direct link to 核心概念" title="Direct link to 核心概念">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="机器人-bot">机器人 (Bot)<a href="#机器人-bot" class="hash-link" aria-label="Direct link to 机器人 (Bot)" title="Direct link to 机器人 (Bot)">​</a></h3>
+<p>机器人是 Bubble 平台上的自动化程序，拥有独立的用户身份（Bot User），可以：</p>
+<ul>
+<li>发送和接收消息</li>
+<li>管理频道和服务器内容</li>
+<li>与用户进行私聊交互</li>
+<li>响应特定事件和命令</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="服务器-guild">服务器 (Guild)<a href="#服务器-guild" class="hash-link" aria-label="Direct link to 服务器 (Guild)" title="Direct link to 服务器 (Guild)">​</a></h3>
+<p>服务器是 Bubble 的社区组织形式，包含多个频道和成员。机器人可以加入服务器并在其中提供服务。</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="频道-channel">频道 (Channel)<a href="#频道-channel" class="hash-link" aria-label="Direct link to 频道 (Channel)" title="Direct link to 频道 (Channel)">​</a></h3>
+<p>频道是服务器内的消息通道，机器人可以在频道中：</p>
+<ul>
+<li>发送和接收消息</li>
+<li>获取历史消息</li>
+<li>管理消息内容</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="私聊线程-dm-thread">私聊线程 (DM Thread)<a href="#私聊线程-dm-thread" class="hash-link" aria-label="Direct link to 私聊线程 (DM Thread)" title="Direct link to 私聊线程 (DM Thread)">​</a></h3>
+<p>机器人可以与用户建立私聊对话，实现一对一的交互体验。</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="开发方式">开发方式<a href="#开发方式" class="hash-link" aria-label="Direct link to 开发方式" title="Direct link to 开发方式">​</a></h2>
+<p>Bubble 提供三种主要的开发方式：</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="1-websocket">1. WebSocket<a href="#1-websocket" class="hash-link" aria-label="Direct link to 1. WebSocket" title="Direct link to 1. WebSocket">​</a></h3>
+<p>通过 WebSocket 长连接实时接收平台事件。</p>
+<p><strong>适用场景：</strong></p>
+<ul>
+<li>需要实时响应用户消息</li>
+<li>客户端应用或本地开发</li>
+<li>需要精确控制事件订阅</li>
+</ul>
+<p><strong>特点：</strong></p>
+<ul>
+<li>✅ 实时双向通信</li>
+<li>✅ 低延迟</li>
+<li>✅ 可选择订阅特定事件类型</li>
+<li>❌ 需要维护连接状态</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="2-webhook">2. Webhook<a href="#2-webhook" class="hash-link" aria-label="Direct link to 2. Webhook" title="Direct link to 2. Webhook">​</a></h3>
+<p>通过 HTTP 回调接收平台推送的事件。</p>
+<p><strong>适用场景：</strong></p>
+<ul>
+<li>生产环境部署</li>
+<li>服务端应用</li>
+<li>不需要实时双向通信</li>
+</ul>
+<p><strong>特点：</strong></p>
+<ul>
+<li>✅ 无需维护连接</li>
+<li>✅ 自动重试机制</li>
+<li>✅ 易于横向扩展</li>
+<li>❌ 需要公网可访  问的服务器</li>
+<li>❌ 接收所有事件（无法选择性订阅）</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="3-http-api">3. HTTP API<a href="#3-http-api" class="hash-link" aria-label="Direct link to 3. HTTP API" title="Direct link to 3. HTTP API">​</a></h3>
+<p>主动调用 RESTful API 进行操作。</p>
+<p><strong>适用场景：</strong></p>
+<ul>
+<li>发送消息</li>
+<li>查询数据</li>
+<li>管理资源</li>
+</ul>
+<p><strong>特点：</strong></p>
+<ul>
+<li>✅ 简单直接</li>
+<li>✅ 无状态</li>
+<li>✅ 易于测试和调试</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="api-版本">API 版本<a href="#api-版本" class="hash-link" aria-label="Direct link to API 版本" title="Direct link to API 版本">​</a></h2>
+<p>当前 API 版本：<strong>v1</strong></p>
+<ul>
+<li>Base URL：<code>https://bubble.alemonjs.com/api/robot/v1</code></li>
+<li>Gateway URL：<code>wss://bubble.alemonjs.com/api/bot/gateway</code></li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="认证方式">认证方式<a href="#认证方式" class="hash-link" aria-label="Direct link to 认证方式" title="Direct link to 认证方式">​</a></h2>
+<p>所有 API 请求都需要通过 Bot Token 进行认证：</p>
+<div class="language-http codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-http codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Authorization: Bearer YOUR_BOT_TOKEN</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="速率限制">速率限制<a href="#速率限制" class="hash-link" aria-label="Direct link to 速率限制" title="Direct link to 速率限制">​</a></h2>
+<p>为保证平台稳定运行，API 设有以下速率限制：</p>
+<table><thead><tr><th>资源类型</th><th>限制</th></tr></thead><tbody><tr><td>WebSocket 消息</td><td>10 次/秒，突发 20 次</td></tr><tr><td>HTTP API</td><td>5 次/秒</td></tr><tr><td>文件上传</td><td>5MB/文件，每日 80GB</td></tr></tbody></table>
+<p>详细的限制说明请参考 <a href="/bubble.dev/docs/limits">速率限制文档</a>。</p></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col"><a href="https://github.com/lemonade-lab/alemonjs-docs/docs/intro.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--next" href="/bubble.dev/docs/start"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">快速开始</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#什么是-bubble" class="table-of-contents__link toc-highlight">什么是 Bubble？</a></li><li><a href="#核心概念" class="table-of-contents__link toc-highlight">核心概念</a><ul><li><a href="#机器人-bot" class="table-of-contents__link toc-highlight">机器人 (Bot)</a></li><li><a href="#服务器-guild" class="table-of-contents__link toc-highlight">服务器 (Guild)</a></li><li><a href="#频道-channel" class="table-of-contents__link toc-highlight">频道 (Channel)</a></li><li><a href="#私聊线程-dm-thread" class="table-of-contents__link toc-highlight">私聊线程 (DM Thread)</a></li></ul></li><li><a href="#开发方式" class="table-of-contents__link toc-highlight">开发方式</a><ul><li><a href="#1-websocket" class="table-of-contents__link toc-highlight">1. WebSocket</a></li><li><a href="#2-webhook" class="table-of-contents__link toc-highlight">2. Webhook</a></li><li><a href="#3-http-api" class="table-of-contents__link toc-highlight">3. HTTP API</a></li></ul></li><li><a href="#api-版本" class="table-of-contents__link toc-highlight">API 版本</a></li><li><a href="#认证方式" class="table-of-contents__link toc-highlight">认证方式</a></li><li><a href="#速率限制" class="table-of-contents__link toc-highlight">速率限制</a></li></ul></div></div></div></div></main></div></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">教程</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/bubble.dev/docs/intro">简介</a></li></ul></div><div class="col footer__col"><div class="footer__title">更多</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/lemonade-lab/alemonjs" target="_blank" rel="noopener noreferrer" class="footer__link-item">alemonjs<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div></div></div></footer></div>
+</body>
+</html>

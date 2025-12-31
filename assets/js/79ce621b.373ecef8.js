@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkbubble_docs=self.webpackChunkbubble_docs||[]).push([[538],{6767:e=>{e.exports=JSON.parse('{"metadata":{"permalink":"/bubble.dev/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);

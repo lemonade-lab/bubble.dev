@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://bubble.alemonjs.com/bubble.dev/blog</id>
+    <title>Bubble Blog</title>
+    <updated>2025-12-31T00:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://bubble.alemonjs.com/bubble.dev/blog"/>
+    <subtitle>Bubble Blog</subtitle>
+    <entry>
+        <title type="html"><![CDATA[0.0.1]]></title>
+        <id>https://bubble.alemonjs.com/bubble.dev/blog/2025/12/31/releases/v0.0.1</id>
+        <link href="https://bubble.alemonjs.com/bubble.dev/blog/2025/12/31/releases/v0.0.1"/>
+        <updated>2025-12-31T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[更新]]></summary>
+        <content type="html"><![CDATA[<p>文档初始内容</p>]]></content>
+        <author>
+            <name/>
+            <email>ningmengchongshui@gmail.com</email>
+            <uri>https://github.com/ningmengchongshui</uri>
+        </author>
+        <category label="更新" term="更新"/>
+    </entry>
+</feed>
