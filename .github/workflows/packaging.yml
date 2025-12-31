@@ -10,18 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Configure SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          echo "StrictHostKeyChecking no" >> ~/.ssh/config
-          echo "UserKnownHostsFile=/dev/null" >> ~/.ssh/config
-
-      - name: Test SSH connection
-        run: |
-          ssh -o BatchMode=yes -o StrictHostKeyChecking=no ${{ secrets.SSH_SERVER_USER }}@${{ secrets.SSH_SERVER_IP }} "echo 'SSH connection successful!'"
-
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
@@ -39,21 +27,12 @@ jobs:
       - name: Install dependencies
         run: |
           rm -rf .npmrc
-          npm install yarn@1.12.1 -g
+          npm install yarn -g
           yarn install --ignore-engines
 
       - name: Build dependencies
         run: |
           yarn build
-
-      - name: Install rsync
-        run: |
-          sudo apt-get update 
-          sudo apt-get install -y rsync
-
-      - name: Deploy to server
-        run: |
-          rsync -avz --delete ./build/ ${{ secrets.SSH_SERVER_USER }}@${{ secrets.SSH_SERVER_IP }}:/usr/local/nginx/alemonjs-docs
 
       - name: Push docs to GitHub
         run: |
