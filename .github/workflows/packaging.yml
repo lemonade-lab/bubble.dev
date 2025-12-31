@@ -31,7 +31,7 @@ jobs:
         run: |
           echo "BEIJING_TIME=$(TZ=Asia/Shanghai date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
           echo "TEAM_NAME='lemonade-lab'" >> $GITHUB_ENV
-          echo "WAREHOUSE_NAME='alemonjs-docs'" >> $GITHUB_ENV
+          echo "WAREHOUSE_NAME='bubble.dev'" >> $GITHUB_ENV
 
       - name: Checkout repository
         uses: actions/checkout@v2
