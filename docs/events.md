@@ -36,6 +36,7 @@ sidebar_position: 9
 频道新消息。
 
 **事件数据**:
+
 ```json
 {
   "id": 1001,
@@ -59,6 +60,7 @@ sidebar_position: 9
 消息被编辑。
 
 **事件数据**:
+
 ```json
 {
   "id": 1001,
@@ -73,6 +75,7 @@ sidebar_position: 9
 消息被删除。
 
 **事件数据**:
+
 ```json
 {
   "id": 1001,
@@ -88,6 +91,7 @@ sidebar_position: 9
 私信新消息。
 
 **事件数据**:
+
 ```json
 {
   "id": 2001,
@@ -121,6 +125,7 @@ sidebar_position: 9
 新成员加入服务器。
 
 **事件数据**:
+
 ```json
 {
   "guildId": 10,
@@ -138,6 +143,7 @@ sidebar_position: 9
 成员信息更新（昵称、角色等）。
 
 **事件数据**:
+
 ```json
 {
   "guildId": 10,
@@ -155,6 +161,7 @@ sidebar_position: 9
 成员离开或被踢出服务器。
 
 **事件数据**:
+
 ```json
 {
   "guildId": 10,
@@ -172,6 +179,7 @@ sidebar_position: 9
 新频道创建。
 
 **事件数据**:
+
 ```json
 {
   "id": 789,
@@ -193,6 +201,7 @@ sidebar_position: 9
 频道被删除。
 
 **事件数据**:
+
 ```json
 {
   "id": 789,
@@ -207,17 +216,14 @@ sidebar_position: 9
 机器人加入新服务器或服务器信息初始化。
 
 **事件数据**:
+
 ```json
 {
   "id": 10,
   "name": "My Server",
   "ownerId": 1,
-  "channels": [
-    {"id": 123, "name": "general"}
-  ],
-  "members": [
-    {"user": {"id": 1, "name": "owner"}}
-  ]
+  "channels": [{ "id": 123, "name": "general" }],
+  "members": [{ "user": { "id": 1, "name": "owner" } }]
 }
 ```
 
@@ -232,6 +238,7 @@ sidebar_position: 9
 机器人被移除或服务器被删除。
 
 **事件数据**:
+
 ```json
 {
   "id": 10
@@ -245,6 +252,7 @@ sidebar_position: 9
 新角色创建。
 
 **事件数据**:
+
 ```json
 {
   "guildId": 10,
@@ -268,6 +276,7 @@ sidebar_position: 9
 角色删除。
 
 **事件数据**:
+
 ```json
 {
   "guildId": 10,
@@ -282,15 +291,14 @@ sidebar_position: 9
 机器人连接成功并准备就绪（仅 WebSocket）。
 
 **事件数据**:
+
 ```json
 {
   "bot": {
     "id": 123,
     "name": "MyBot"
   },
-  "guilds": [
-    {"id": 10, "name": "Server 1"}
-  ]
+  "guilds": [{ "id": 10, "name": "Server 1" }]
 }
 ```
 
@@ -299,76 +307,43 @@ sidebar_position: 9
 ### 订阅单个事件
 
 ```javascript
-ws.send(JSON.stringify({
-  op: 30, // Subscribe
-  d: {
-    event_types: ['MESSAGE_CREATE']
-  }
-}));
+ws.send(
+  JSON.stringify({
+    op: 30, // Subscribe
+    d: {
+      event_types: ['MESSAGE_CREATE']
+    }
+  })
+)
 ```
 
 ### 订阅多个事件
 
 ```javascript
-ws.send(JSON.stringify({
-  op: 30,
-  d: {
-    event_types: [
-      'MESSAGE_CREATE',
-      'MESSAGE_UPDATE',
-      'MESSAGE_DELETE',
-      'GUILD_MEMBER_ADD'
-    ]
-  }
-}));
+ws.send(
+  JSON.stringify({
+    op: 30,
+    d: {
+      event_types: [
+        'MESSAGE_CREATE',
+        'MESSAGE_UPDATE',
+        'MESSAGE_DELETE',
+        'GUILD_MEMBER_ADD'
+      ]
+    }
+  })
+)
 ```
 
 ### 取消订阅
 
 ```javascript
-ws.send(JSON.stringify({
-  op: 31, // Unsubscribe
-  d: {
-    event_types: ['MESSAGE_DELETE']
-  }
-}));
+ws.send(
+  JSON.stringify({
+    op: 31, // Unsubscribe
+    d: {
+      event_types: ['MESSAGE_DELETE']
+    }
+  })
+)
 ```
-
-## 事件过滤
-
-机器人只会收到已授权资源的事件：
-
-- 已加入的服务器中的所有频道事件
-- 机器人参与的私信频道事件
-
-## 完整事件列表
-
-| 事件类型 | 说明 |
-|---------|------|
-| MESSAGE_CREATE | 频道新消息 |
-| MESSAGE_UPDATE | 频道消息更新 |
-| MESSAGE_DELETE | 频道消息删除 |
-| DM_MESSAGE_CREATE | 私信新消息 |
-| DM_MESSAGE_UPDATE | 私信更新 |
-| DM_MESSAGE_DELETE | 私信删除 |
-| GUILD_MEMBER_ADD | 成员加入 |
-| GUILD_MEMBER_UPDATE | 成员更新 |
-| GUILD_MEMBER_REMOVE | 成员离开 |
-| CHANNEL_CREATE | 频道创建 |
-| CHANNEL_UPDATE | 频道更新 |
-| CHANNEL_DELETE | 频道删除 |
-| GUILD_CREATE | 服务器创建/加入 |
-| GUILD_UPDATE | 服务器更新 |
-| GUILD_DELETE | 服务器删除/离开 |
-| GUILD_ROLE_CREATE | 角色创建 |
-| GUILD_ROLE_UPDATE | 角色更新 |
-| GUILD_ROLE_DELETE | 角色删除 |
-| BOT_READY | 机器人就绪 |
-
-## 最佳实践
-
-- **按需订阅**: 只订阅实际需要的事件类型
-- **处理重复**: 使用事件 ID 进行去重
-- **错误处理**: 捕获异常避免程序崩溃
-
-更多信息请参考 [Gateway 文档](./gateway.md)。

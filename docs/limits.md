@@ -11,30 +11,35 @@ sidebar_position: 10
 ### HTTP API 限制
 
 **全局限制**:
+
 - 速率：**5 请求/秒**
 - 突发：**10 请求**
 
 ```javascript
 // 控制请求速率示例
 for (let i = 0; i < 20; i++) {
-  await api.post(`/channels/${channelId}/messages`, { content: `Message ${i}` });
-  await sleep(200); // 5 请求/秒 = 200ms 间隔
+  await api.post(`/channels/${channelId}/messages`, {
+    content: `Message ${i}`
+  })
+  await sleep(200) // 5 请求/秒 = 200ms 间隔
 }
 ```
 
 ### WebSocket 限制
 
 **消息发送限制**:
+
 - 速率：**10 消息/秒**
 - 突发：**20 消息**
 
 ```javascript
 setInterval(() => {
-  ws.send(JSON.stringify({ op: 1, d: null }));
-}, 30000); // 心跳间隔 30 秒
+  ws.send(JSON.stringify({ op: 1, d: null }))
+}, 30000) // 心跳间隔 30 秒
 ```
 
 **连接限制**:
+
 - 每个机器人最多 **1 个并发连接**
 - 断线重连间隔：**最少 1 秒**
 
@@ -43,6 +48,7 @@ setInterval(() => {
 当超过速率限制时：
 
 **HTTP API**:
+
 ```json
 HTTP/1.1 429 Too Many Requests
 X-RateLimit-Limit: 5
@@ -59,6 +65,7 @@ X-RateLimit-Reset: 1735660800
 ```
 
 **WebSocket**:
+
 ```json
 {
   "op": 0,
@@ -79,24 +86,25 @@ X-RateLimit-Reset: 1735660800
 - **单文件大小**: 最大 **5 MB**
 - **支持格式**: 图片（jpg, png, gif）、语音（mp3, wav）、视频（mp4）
 
-
-
 ### 上传配额
 
 **每日配额**:
+
 - 基础配额：**80 GB/天**
 - 额外配额：每发送 1 条消息 +10 MB
 
 **每月配额**:
+
 - 总配额：**2000 GB/月**
 
 **响应示例**:
+
 ```json
 {
-  "dailyUsed": 1073741824,        // 1 GB
-  "dailyLimit": 85899345920,      // 80 GB
-  "monthlyUsed": 5368709120,      // 5 GB
-  "monthlyLimit": 2147483648000   // 2000 GB
+  "dailyUsed": 1073741824, // 1 GB
+  "dailyLimit": 85899345920, // 80 GB
+  "monthlyUsed": 5368709120, // 5 GB
+  "monthlyLimit": 2147483648000 // 2000 GB
 }
 ```
 
@@ -117,6 +125,7 @@ HTTP/1.1 429 Too Many Requests
 ```
 
 **解决方案**:
+
 1. 等待配额重置（每日 00:00 UTC）
 2. 发送更多消息以获取额外配额
 3. 联系管理员申请提额

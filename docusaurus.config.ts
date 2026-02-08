@@ -11,8 +11,7 @@ const defineConfig = (config: Config) => config
 
 export default defineConfig({
   title: 'Bubble',
-  tagline:
-    '泡泡聊天开放平台',
+  tagline: '泡泡聊天开放平台',
   url: 'https://bubble.alemonjs.com',
   baseUrl: '/bubble.dev/',
   organizationName: 'lemonade-lab',
@@ -49,7 +48,7 @@ export default defineConfig({
           to: 'blog',
           label: '更新记录',
           position: 'left'
-        },
+        }
       ]
     },
     footer: {
@@ -77,12 +76,12 @@ export default defineConfig({
           title: '更多',
           items: [
             {
-              label: 'alemonjs',
+              label: '官方机器人框架',
               href: 'https://github.com/lemonade-lab/alemonjs'
             }
           ]
         }
-      ],
+      ]
     },
     prism: {
       theme: prismThemes.github,
@@ -108,6 +107,5 @@ export default defineConfig({
     ]
   ],
   stylesheets: [],
-  plugins: [
-  ]
+  plugins: []
 })

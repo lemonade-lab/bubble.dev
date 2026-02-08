@@ -1,5 +1,5 @@
 import MonacoEditorReact, {
-  EditorProps,
+  EditorProps
 } from '@monaco-editor/react'
 import { useEffect } from 'react'
 import { createMonacoChineseConfig } from './monacoI18n'
