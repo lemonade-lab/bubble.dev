@@ -46,15 +46,14 @@ curl -X GET https://bubble.alemonjs.com/api/bot/v1/me \
 ```
 
 ```javascript
-const response = await fetch(
-  'https://bubble.alemonjs.com/api/bot/v1/me',
-  {
-    headers: {
-      'Authorization': `Bearer ${BOT_TOKEN}`,
-      'Content-Type': 'application/json'
-    }
+const BASE_URL = 'https://bubble.alemonjs.com/api/bot'
+const BASE_URL_V1 = `${BASE_URL}/v1`
+const response = await fetch(`${BASE_URL_V1}/me`, {
+  headers: {
+    'Authorization': `Bearer ${BOT_TOKEN}`,
+    'Content-Type': 'application/json'
   }
-)
+})
 ```
 
 ### WebSocket
@@ -62,14 +61,13 @@ const response = await fetch(
 在建立 WebSocket 连接时，通过 Header 传递 Token：
 
 ```javascript
-const ws = new WebSocket(
-  'wss://bubble.alemonjs.com/api/bot/gateway',
-  {
-    headers: {
-      Authorization: `Bearer ${BOT_TOKEN}`
-    }
+const BASE_URL = 'https://bubble.alemonjs.com/api/bot'
+const BASE_URL_V1 = `${BASE_URL}/v1`
+const ws = new WebSocket(`${BASE_URL}/gateway`, {
+  headers: {
+    Authorization: `Bearer ${BOT_TOKEN}`
   }
-)
+})
 ```
 
 :::warning 重要

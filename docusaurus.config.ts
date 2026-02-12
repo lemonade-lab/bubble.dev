@@ -25,7 +25,7 @@ export default defineConfig({
         docs: {
           sidebarPath: './sidebars.ts',
           editUrl:
-            'https://github.com/lemonade-lab/alemonjs-docs'
+            'https://github.com/lemonade-lab/bubble.dev'
         },
         theme: {
           customCss: './src/css/custom.css'
@@ -63,15 +63,6 @@ export default defineConfig({
             }
           ]
         },
-        // {
-        //   title: '社区',
-        //   items: [
-        //     {
-        //       label: '群聊',
-        //       href: 'https://qm.qq.com/q/aZYMNqUQc'
-        //     }
-        //   ]
-        // },
         {
           title: '更多',
           items: [
@@ -99,7 +90,6 @@ export default defineConfig({
         indexBlog: false,
         indexPages: true,
         hashed: true,
-        // language: ['en', 'zh'],
         language: ['zh'],
         searchResultLimits: 10,
         searchResultContextMaxLength: 50

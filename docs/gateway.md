@@ -19,14 +19,14 @@ wss://bubble.alemonjs.com/api/bot/gateway
 使用 Bot Token 通过 Authorization Header 连接：
 
 ```javascript
-const ws = new WebSocket(
-  'wss://bubble.alemonjs.com/api/bot/gateway',
-  {
-    headers: {
-      Authorization: `Bearer ${BOT_TOKEN}`
-    }
+const BASE_URL = 'https://bubble.alemonjs.com/api/bot'
+const BASE_URL_V1 = `${BASE_URL}/v1`
+const GATEWAY_URL = `${BASE_URL}/gateway`
+const ws = new WebSocket(GATEWAY_URL, {
+  headers: {
+    Authorization: `Bearer ${BOT_TOKEN}`
   }
-)
+})
 ```
 
 ### 2. 接收 HELLO
@@ -194,8 +194,9 @@ ws.send(
 import WebSocket from 'ws'
 
 const BOT_TOKEN = process.env.BOT_TOKEN
-const GATEWAY_URL =
-  'wss://bubble.alemonjs.com/api/bot/gateway'
+const BASE_URL = 'https://bubble.alemonjs.com/api/bot'
+const BASE_URL_V1 = `${BASE_URL}/v1`
+const GATEWAY_URL = `${BASE_URL}/gateway`
 
 function connect() {
   const ws = new WebSocket(GATEWAY_URL, {
