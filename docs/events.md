@@ -29,7 +29,45 @@ sidebar_position: 9
 - `t`: 事件类型
 - `d`: 事件数据
 
-## 消息事件
+## 可订阅事件一览
+
+| 事件类型                  | 分类     | 说明              |
+| ------------------------- | -------- | ----------------- |
+| `MESSAGE_CREATE`          | 频道消息 | 新消息            |
+| `MESSAGE_UPDATE`          | 频道消息 | 消息编辑          |
+| `MESSAGE_DELETE`          | 频道消息 | 消息删除          |
+| `MESSAGE_PIN`             | 频道消息 | 消息设为精华      |
+| `MESSAGE_UNPIN`           | 频道消息 | 取消精华          |
+| `MESSAGE_REACTION_ADD`    | 频道消息 | 添加表态          |
+| `MESSAGE_REACTION_REMOVE` | 频道消息 | 移除表态          |
+| `DM_MESSAGE_CREATE`       | 私聊消息 | 新私聊消息        |
+| `DM_MESSAGE_UPDATE`       | 私聊消息 | 私聊消息编辑      |
+| `DM_MESSAGE_DELETE`       | 私聊消息 | 私聊消息删除      |
+| `DM_MESSAGE_PIN`          | 私聊消息 | 私聊设为精华      |
+| `DM_MESSAGE_UNPIN`        | 私聊消息 | 私聊取消精华      |
+| `GUILD_MEMBER_ADD`        | 成员     | 新成员加入        |
+| `GUILD_MEMBER_UPDATE`     | 成员     | 成员信息变更      |
+| `GUILD_MEMBER_REMOVE`     | 成员     | 成员离开/被踢     |
+| `MENTION_CREATE`          | 通知     | 被 @mention       |
+| `READ_STATE_UPDATE`       | 通知     | 红点/未读状态变更 |
+| `APPLICATION_CREATE`      | 申请     | 新申请            |
+| `APPLICATION_UPDATE`      | 申请     | 申请状态变更      |
+| `NOTICE_CREATE`           | 通知     | 新通知            |
+| `NOTICE_UPDATE`           | 通知     | 通知更新          |
+| `APPLY_CREATE`            | 申请     | 新申请（别名）    |
+| `APPLY_UPDATE`            | 申请     | 申请更新（别名）  |
+| `GROUP_MESSAGE_CREATE`    | 群聊     | 群聊新消息        |
+| `GROUP_MESSAGE_UPDATE`    | 群聊     | 群聊消息编辑      |
+| `GROUP_MESSAGE_DELETE`    | 群聊     | 群聊消息删除      |
+| `GROUP_MESSAGE_PIN`       | 群聊     | 群聊精华          |
+| `GROUP_MESSAGE_UNPIN`     | 群聊     | 群聊取消精华      |
+| `GROUP_THREAD_UPDATE`     | 群聊     | 群聊线程更新      |
+| `GROUP_MEMBER_ADD`        | 群聊     | 群成员加入        |
+| `GROUP_MEMBER_REMOVE`     | 群聊     | 群成员离开        |
+
+---
+
+## 频道消息事件
 
 ### MESSAGE_CREATE
 
@@ -41,17 +79,21 @@ sidebar_position: 9
 {
   "id": 1001,
   "channelId": 123,
-  "guildId": 10,
+  "authorId": 1,
+  "author": "username",
   "content": "Hello, world!",
-  "msgType": 0,
-  "author": {
-    "id": 1,
-    "name": "username",
-    "avatar": "https://..."
-  },
-  "timestamp": "2025-12-31T12:00:00Z",
-  "mentions": [456],
-  "mentionRoles": [100]
+  "type": "text",
+  "platform": "web",
+  "mentions": [
+    {
+      "type": "user",
+      "id": 42,
+      "name": "张三",
+      "avatar": "avatar/xxx.jpg"
+    }
+  ],
+  "replyToId": null,
+  "createdAt": "2025-12-31T12:00:00Z"
 }
 ```
 
@@ -66,13 +108,14 @@ sidebar_position: 9
   "id": 1001,
   "channelId": 123,
   "content": "Updated content",
-  "editedTimestamp": "2025-12-31T12:10:00Z"
+  "mentions": [],
+  "editedAt": "2025-12-31T12:10:00Z"
 }
 ```
 
 ### MESSAGE_DELETE
 
-消息被删除。
+消息被删除/撤回。
 
 **事件数据**:
 
@@ -80,9 +123,65 @@ sidebar_position: 9
 {
   "id": 1001,
   "channelId": 123,
-  "guildId": 10
+  "deleted": true
 }
 ```
+
+### MESSAGE_PIN
+
+消息被设为精华。
+
+**事件数据**:
+
+```json
+{
+  "id": 1001,
+  "channelId": 123
+}
+```
+
+### MESSAGE_UNPIN
+
+消息取消精华。
+
+**事件数据**: 同 `MESSAGE_PIN`
+
+### MESSAGE_REACTION_ADD
+
+消息被添加表态。
+
+**事件数据**:
+
+```json
+{
+  "messageId": 1001,
+  "channelId": 123,
+  "userId": 1,
+  "emoji": "👍",
+  "user": {
+    "id": 1,
+    "name": "username",
+    "avatar": "avatar/xxx.jpg"
+  }
+}
+```
+
+### MESSAGE_REACTION_REMOVE
+
+表态被移除。
+
+**事件数据**:
+
+```json
+{
+  "messageId": 1001,
+  "channelId": 123,
+  "userId": 1,
+  "emoji": "👍"
+}
+```
+
+---
 
 ## 私信事件
 
@@ -95,14 +194,11 @@ sidebar_position: 9
 ```json
 {
   "id": 2001,
-  "channelId": 456,
+  "threadId": 456,
+  "authorId": 1,
   "content": "Private message",
-  "author": {
-    "id": 1,
-    "name": "username",
-    "avatar": "https://..."
-  },
-  "timestamp": "2025-12-31T12:00:00Z"
+  "type": "text",
+  "createdAt": "2025-12-31T12:00:00Z"
 }
 ```
 
@@ -110,13 +206,34 @@ sidebar_position: 9
 
 私信被编辑。
 
-**事件数据**: 同 MESSAGE_UPDATE
+**事件数据**: 同 `MESSAGE_UPDATE`（字段为 `threadId` 而非 `channelId`）
 
 ### DM_MESSAGE_DELETE
 
 私信被删除。
 
-**事件数据**: 同 MESSAGE_DELETE
+**事件数据**: 同 `MESSAGE_DELETE`（字段为 `threadId`）
+
+### DM_MESSAGE_PIN
+
+私信设为精华。
+
+**事件数据**:
+
+```json
+{
+  "id": 2001,
+  "threadId": 456
+}
+```
+
+### DM_MESSAGE_UNPIN
+
+私信取消精华。
+
+**事件数据**: 同 `DM_MESSAGE_PIN`
+
+---
 
 ## 成员事件
 
@@ -129,10 +246,11 @@ sidebar_position: 9
 ```json
 {
   "guildId": 10,
+  "userId": 999,
   "user": {
     "id": 999,
     "name": "newuser",
-    "avatar": "https://..."
+    "avatar": "avatar/xxx.jpg"
   },
   "joinedAt": "2025-12-31T12:00:00Z"
 }
@@ -140,21 +258,26 @@ sidebar_position: 9
 
 ### GUILD_MEMBER_UPDATE
 
-成员信息更新（昵称、角色等）。
+成员信息更新（昵称、角色、禁言/解禁等）。
 
 **事件数据**:
 
 ```json
 {
   "guildId": 10,
-  "user": {
-    "id": 1,
-    "name": "username"
-  },
-  "roles": [100, 101],
-  "nick": "New Nickname"
+  "userId": 1,
+  "action": "nickname",
+  "nickname": "New Nickname",
+  "operatorId": 456
 }
 ```
+
+`action` 可能的值：
+
+- `nickname` — 昵称变更
+- `unmuted` — 解除禁言
+- `roles_added` — 分配角色（附带 `roleId`）
+- `roles_removed` — 移除角色（附带 `roleId`）
 
 ### GUILD_MEMBER_REMOVE
 
@@ -165,126 +288,50 @@ sidebar_position: 9
 ```json
 {
   "guildId": 10,
-  "user": {
-    "id": 1,
-    "name": "username"
-  }
+  "userId": 1,
+  "operatorId": 456
 }
 ```
 
-## 频道事件
+---
 
-### CHANNEL_CREATE
+## 通知事件
 
-新频道创建。
+### READ_STATE_UPDATE
+
+未读状态/红点变更。
 
 **事件数据**:
 
 ```json
 {
-  "id": 789,
-  "guildId": 10,
-  "name": "new-channel",
-  "type": 0,
-  "position": 5
+  "type": "channel",
+  "id": 123,
+  "lastReadMessageId": 1000,
+  "unreadCount": 5,
+  "mentionCount": 1
 }
 ```
 
-### CHANNEL_UPDATE
+`type` 可选值：`channel` | `guild` | `dm`
 
-频道信息更新。
+### MENTION_CREATE
 
-**事件数据**: 同 CHANNEL_CREATE
-
-### CHANNEL_DELETE
-
-频道被删除。
+被 @mention 通知。
 
 **事件数据**:
 
 ```json
 {
-  "id": 789,
-  "guildId": 10
+  "channelId": 123,
+  "messageId": 1001,
+  "authorId": 1
 }
 ```
 
-## 服务器事件
+---
 
-### GUILD_CREATE
-
-机器人加入新服务器或服务器信息初始化。
-
-**事件数据**:
-
-```json
-{
-  "id": 10,
-  "name": "My Server",
-  "ownerId": 1,
-  "channels": [{ "id": 123, "name": "general" }],
-  "members": [{ "user": { "id": 1, "name": "owner" } }]
-}
-```
-
-### GUILD_UPDATE
-
-服务器信息更新。
-
-**事件数据**: 同 GUILD_CREATE（部分字段）
-
-### GUILD_DELETE
-
-机器人被移除或服务器被删除。
-
-**事件数据**:
-
-```json
-{
-  "id": 10
-}
-```
-
-## 角色事件
-
-### GUILD_ROLE_CREATE
-
-新角色创建。
-
-**事件数据**:
-
-```json
-{
-  "guildId": 10,
-  "role": {
-    "id": 100,
-    "name": "Moderator",
-    "color": "#3498db",
-    "permissions": 8
-  }
-}
-```
-
-### GUILD_ROLE_UPDATE
-
-角色更新。
-
-**事件数据**: 同 GUILD_ROLE_CREATE
-
-### GUILD_ROLE_DELETE
-
-角色删除。
-
-**事件数据**:
-
-```json
-{
-  "guildId": 10,
-  "roleId": 100
-}
-```
-
-## 特殊事件
+## 特殊事件（不可订阅，自动接收）
 
 ### BOT_READY
 
@@ -296,39 +343,68 @@ sidebar_position: 9
 {
   "bot": {
     "id": 123,
-    "name": "MyBot"
+    "name": "我的机器人",
+    "botUser": { "id": 456, "name": "bot_我的机器人" }
   },
-  "guilds": [{ "id": 10, "name": "Server 1" }]
+  "subscribedGuilds": [{ "id": 10, "name": "Server 1" }],
+  "subscribedDMs": [],
+  "availableEvents": [
+    "MESSAGE_CREATE",
+    "MESSAGE_UPDATE",
+    "..."
+  ]
 }
 ```
 
-## 事件订阅示例
+### EVENTS_SUBSCRIBED
 
-### 订阅单个事件
+事件订阅成功确认。
 
-```javascript
-ws.send(
-  JSON.stringify({
-    op: 30, // Subscribe
-    d: {
-      event_types: ['MESSAGE_CREATE']
-    }
-  })
-)
+**事件数据**:
+
+```json
+{
+  "subscribedEvents": [
+    "MESSAGE_CREATE",
+    "DM_MESSAGE_CREATE"
+  ],
+  "invalidEvents": []
+}
 ```
 
-### 订阅多个事件
+### EVENTS_UNSUBSCRIBED
+
+事件取消订阅确认。
+
+**事件数据**:
+
+```json
+{
+  "unsubscribedEvents": ["MESSAGE_DELETE"]
+}
+```
+
+---
+
+## 事件订阅示例
+
+### 订阅消息和成员事件
 
 ```javascript
 ws.send(
   JSON.stringify({
     op: 30,
     d: {
-      event_types: [
+      events: [
         'MESSAGE_CREATE',
         'MESSAGE_UPDATE',
         'MESSAGE_DELETE',
-        'GUILD_MEMBER_ADD'
+        'MESSAGE_REACTION_ADD',
+        'MESSAGE_REACTION_REMOVE',
+        'DM_MESSAGE_CREATE',
+        'GUILD_MEMBER_ADD',
+        'GUILD_MEMBER_REMOVE',
+        'READ_STATE_UPDATE'
       ]
     }
   })
@@ -340,9 +416,9 @@ ws.send(
 ```javascript
 ws.send(
   JSON.stringify({
-    op: 31, // Unsubscribe
+    op: 31,
     d: {
-      event_types: ['MESSAGE_DELETE']
+      events: ['MESSAGE_DELETE']
     }
   })
 )

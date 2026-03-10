@@ -21,9 +21,11 @@ Content-Type: application/json
 Authorization: Bearer YOUR_BOT_TOKEN
 ```
 
+---
+
 ## 机器人信息
 
-### GET /bot/me
+### GET /me
 
 获取当前机器人信息。
 
@@ -32,11 +34,18 @@ Authorization: Bearer YOUR_BOT_TOKEN
 ```json
 {
   "id": 123,
-  "name": "MyBot",
-  "avatar": "avatar/avatar/xxx.jpg",
-  "description": "Bot description"
+  "botUser": {
+    "id": 456,
+    "name": "bot_MyBot",
+    "avatar": "avatar/avatar/xxx.jpg"
+  },
+  "robotId": 123,
+  "ownerId": 1,
+  "verified": true
 }
 ```
+
+---
 
 ## 消息管理
 
@@ -46,16 +55,51 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **路径参数**:
 
-- `channelId` (number): 频道 ID
+| 参数      | 类型   | 说明    |
+| --------- | ------ | ------- |
+| channelId | number | 频道 ID |
 
 **请求体**:
 
 ```json
 {
-  "content": "Hello, world!",
-  "msgType": 0
+  "content": "Hello <@42> 你好！",
+  "type": "text",
+  "replyToId": 1000,
+  "notify_mentions": false,
+  "embed": {},
+  "attachments": [
+    {
+      "path": "guild-chat-files/xxx.png",
+      "url": "guild-chat-files/xxx.png",
+      "contentType": "image/png",
+      "size": 102400,
+      "filename": "image.png",
+      "width": 800,
+      "height": 600
+    }
+  ]
 }
 ```
+
+**请求体字段说明**:
+
+| 字段            | 类型    | 必填 | 说明                                                                     |
+| --------------- | ------- | ---- | ------------------------------------------------------------------------ |
+| content         | string  | 是   | 消息内容，支持 [Markdown](./markdown.md) 和 mention 简写                 |
+| type            | string  | 否   | 消息类型：`text`(默认), `image`, `voice`, `file`；不传时根据附件自动推断 |
+| replyToId       | number  | 否   | 回复的消息 ID                                                            |
+| notify_mentions | boolean | 否   | 是否触发 @mention 通知（红点），默认 `false`                             |
+| embed           | object  | 否   | 扩展字段                                                                 |
+| attachments     | array   | 否   | 附件列表（需先通过 `/files/upload` 上传获取 path）                       |
+
+:::info Mention 简写格式
+消息内容支持以下简写，后端会自动解析并替换为可读文本：
+
+- `<@用户ID>` → @用户名（无效 ID 会被移除）
+- `<#频道ID>` → #频道名（无效 ID 会被移除）
+- `<@everyone>` → @全体成员
+  :::
 
 **响应示例**:
 
@@ -63,12 +107,19 @@ Authorization: Bearer YOUR_BOT_TOKEN
 {
   "id": 1001,
   "channelId": 123,
-  "content": "Hello!",
-  "author": {
-    "id": 456,
-    "name": "MyBot"
-  },
-  "timestamp": "2025-12-31T12:00:00Z"
+  "content": "Hello @张三 你好！",
+  "author": "bot_MyBot",
+  "authorId": 456,
+  "type": "text",
+  "mentions": [
+    {
+      "type": "user",
+      "id": 42,
+      "name": "张三",
+      "avatar": "avatar/xxx.jpg"
+    }
+  ],
+  "createdAt": "2025-12-31T12:00:00Z"
 }
 ```
 
@@ -78,13 +129,17 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **路径参数**:
 
-- `channelId` (number): 频道 ID
+| 参数      | 类型   | 说明    |
+| --------- | ------ | ------- |
+| channelId | number | 频道 ID |
 
 **查询参数**:
 
-- `before` (number, 可选): 获取此消息 ID 之前的消息
-- `after` (number, 可选): 获取此消息 ID 之后的消息
-- `limit` (number, 可选): 返回数量，默认 50，最大 100
+| 参数   | 类型   | 必填 | 说明                        |
+| ------ | ------ | ---- | --------------------------- |
+| before | number | 否   | 获取此消息 ID 之前的消息    |
+| after  | number | 否   | 获取此消息 ID 之后的消息    |
+| limit  | number | 否   | 返回数量，默认 50，最大 100 |
 
 **响应示例**:
 
@@ -95,23 +150,38 @@ Authorization: Bearer YOUR_BOT_TOKEN
       "id": 1001,
       "channelId": 123,
       "content": "Hello!",
-      "timestamp": "2025-12-31T12:00:00Z"
+      "createdAt": "2025-12-31T12:00:00Z"
     }
   ],
   "hasMore": true
 }
 ```
 
-### DELETE /channels/:channelId/messages/:messageId
+### GET /channels/:channelId/messages/:messageId
 
-删除消息（仅限机器人自己发送的消息）。
+获取单条消息。
 
 **路径参数**:
 
-- `channelId` (number): 频道 ID
-- `messageId` (number): 消息 ID
+| 参数      | 类型   | 说明    |
+| --------- | ------ | ------- |
+| channelId | number | 频道 ID |
+| messageId | number | 消息 ID |
 
-**响应**: 204 No Content
+**响应示例**:
+
+```json
+{
+  "id": 1001,
+  "channelId": 123,
+  "authorId": 456,
+  "author": "bot_MyBot",
+  "content": "Hello!",
+  "type": "text",
+  "mentions": [],
+  "createdAt": "2025-12-31T12:00:00Z"
+}
+```
 
 ### PUT /channels/:channelId/messages/:messageId
 
@@ -119,8 +189,10 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **路径参数**:
 
-- `channelId` (number): 频道 ID
-- `messageId` (number): 消息 ID
+| 参数      | 类型   | 说明    |
+| --------- | ------ | ------- |
+| channelId | number | 频道 ID |
+| messageId | number | 消息 ID |
 
 **请求体**:
 
@@ -130,16 +202,160 @@ Authorization: Bearer YOUR_BOT_TOKEN
 }
 ```
 
+**响应**: 编辑后的消息对象
+
+### DELETE /channels/:channelId/messages/:messageId
+
+删除消息（仅限机器人自己发送的消息）。
+
+**路径参数**:
+
+| 参数      | 类型   | 说明    |
+| --------- | ------ | ------- |
+| channelId | number | 频道 ID |
+| messageId | number | 消息 ID |
+
+**响应**: `204 No Content`
+
+### POST /channels/:channelId/messages/batch-delete
+
+批量删除频道消息（仅限机器人自己发送的消息）。
+
+**路径参数**:
+
+| 参数      | 类型   | 说明    |
+| --------- | ------ | ------- |
+| channelId | number | 频道 ID |
+
+**请求体**:
+
+```json
+{
+  "messageIds": [1001, 1002, 1003]
+}
+```
+
+> 单次最多 100 条
+
 **响应示例**:
 
 ```json
 {
-  "id": 1001,
-  "channelId": 123,
-  "content": "Updated!",
-  "editedTimestamp": "2025-12-31T12:10:00Z"
+  "succeeded": [1001, 1002],
+  "failed": [{ "messageId": 1003, "error": "权限不足" }]
 }
 ```
+
+---
+
+## 表态 (Reactions)
+
+### GET /channels/:channelId/messages/:messageId/reactions
+
+获取消息的所有表态。
+
+**路径参数**:
+
+| 参数      | 类型   | 说明    |
+| --------- | ------ | ------- |
+| channelId | number | 频道 ID |
+| messageId | number | 消息 ID |
+
+**响应示例**:
+
+```json
+[
+  { "emoji": "👍", "count": 3, "users": [1, 2, 3] },
+  { "emoji": "❤️", "count": 1, "users": [1] }
+]
+```
+
+### PUT /channels/:channelId/messages/:messageId/reactions/:emoji
+
+添加表态。
+
+**路径参数**:
+
+| 参数      | 类型   | 说明                      |
+| --------- | ------ | ------------------------- |
+| channelId | number | 频道 ID                   |
+| messageId | number | 消息 ID                   |
+| emoji     | string | Emoji 字符（需 URL 编码） |
+
+**响应**: 表态对象
+
+**触发事件**: `MESSAGE_REACTION_ADD`
+
+### DELETE /channels/:channelId/messages/:messageId/reactions/:emoji
+
+移除表态。
+
+**路径参数**:
+
+| 参数      | 类型   | 说明                      |
+| --------- | ------ | ------------------------- |
+| channelId | number | 频道 ID                   |
+| messageId | number | 消息 ID                   |
+| emoji     | string | Emoji 字符（需 URL 编码） |
+
+**响应**: `204 No Content`
+
+**触发事件**: `MESSAGE_REACTION_REMOVE`
+
+---
+
+## 精华消息 (Pins)
+
+### GET /channels/:channelId/pins
+
+获取频道的精华消息列表。
+
+**路径参数**:
+
+| 参数      | 类型   | 说明    |
+| --------- | ------ | ------- |
+| channelId | number | 频道 ID |
+
+**响应**: 精华消息数组
+
+### POST /channels/:channelId/pins
+
+设为精华消息。
+
+**路径参数**:
+
+| 参数      | 类型   | 说明    |
+| --------- | ------ | ------- |
+| channelId | number | 频道 ID |
+
+**请求体**:
+
+```json
+{
+  "messageId": 1001
+}
+```
+
+**响应**: 精华消息对象
+
+**触发事件**: `MESSAGE_PIN`
+
+### DELETE /channels/:channelId/pins/:messageId
+
+取消精华。
+
+**路径参数**:
+
+| 参数      | 类型   | 说明    |
+| --------- | ------ | ------- |
+| channelId | number | 频道 ID |
+| messageId | number | 消息 ID |
+
+**响应**: `204 No Content`
+
+**触发事件**: `MESSAGE_UNPIN`
+
+---
 
 ## 频道管理
 
@@ -149,21 +365,23 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **路径参数**:
 
-- `guildId` (number): 服务器 ID
+| 参数    | 类型   | 说明      |
+| ------- | ------ | --------- |
+| guildId | number | 服务器 ID |
 
 **响应示例**:
 
 ```json
-{
-  "channels": [
-    {
-      "id": 123,
-      "guildId": 10,
-      "name": "general",
-      "type": 0
-    }
-  ]
-}
+[
+  {
+    "id": 123,
+    "guildId": 10,
+    "name": "general",
+    "type": "text",
+    "categoryId": 1,
+    "sortOrder": 0
+  }
+]
 ```
 
 ### GET /channels/:channelId
@@ -172,7 +390,9 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **路径参数**:
 
-- `channelId` (number): 频道 ID
+| 参数      | 类型   | 说明    |
+| --------- | ------ | ------- |
+| channelId | number | 频道 ID |
 
 **响应示例**:
 
@@ -181,10 +401,149 @@ Authorization: Bearer YOUR_BOT_TOKEN
   "id": 123,
   "guildId": 10,
   "name": "general",
-  "type": 0,
-  "topic": "General discussion"
+  "type": "text",
+  "categoryId": 1,
+  "sortOrder": 0,
+  "createdAt": "2025-01-01T00:00:00Z"
 }
 ```
+
+### POST /guilds/:guildId/channels
+
+创建频道。
+
+**路径参数**:
+
+| 参数    | 类型   | 说明      |
+| ------- | ------ | --------- |
+| guildId | number | 服务器 ID |
+
+**请求体**:
+
+```json
+{
+  "name": "new-channel",
+  "type": "text",
+  "parentId": 0,
+  "categoryId": 1
+}
+```
+
+| 字段       | 类型   | 必填 | 说明                                     |
+| ---------- | ------ | ---- | ---------------------------------------- |
+| name       | string | 是   | 频道名称                                 |
+| type       | string | 否   | 频道类型：`text`(默认), `media`, `forum` |
+| parentId   | number | 否   | 父频道 ID                                |
+| categoryId | number | 否   | 所属分类 ID                              |
+
+**权限**: 需要 `MANAGE_CHANNELS`
+
+**响应**: 创建的频道对象
+
+### PUT /channels/:channelId/settings
+
+更新频道信息。
+
+**路径参数**:
+
+| 参数      | 类型   | 说明    |
+| --------- | ------ | ------- |
+| channelId | number | 频道 ID |
+
+**请求体**（所有字段可选）:
+
+```json
+{
+  "name": "renamed-channel",
+  "banner": "guild-chat-files/banner.png"
+}
+```
+
+**响应**: `{ "success": true }`
+
+### DELETE /channels/:channelId
+
+删除频道。
+
+**路径参数**:
+
+| 参数      | 类型   | 说明    |
+| --------- | ------ | ------- |
+| channelId | number | 频道 ID |
+
+**响应**: `204 No Content`
+
+---
+
+## 频道分类
+
+### GET /guilds/:guildId/channel-categories
+
+获取服务器的频道分类列表。
+
+**路径参数**:
+
+| 参数    | 类型   | 说明      |
+| ------- | ------ | --------- |
+| guildId | number | 服务器 ID |
+
+**响应**: 分类数组
+
+### POST /guilds/:guildId/channel-categories
+
+创建频道分类。
+
+**路径参数**:
+
+| 参数    | 类型   | 说明      |
+| ------- | ------ | --------- |
+| guildId | number | 服务器 ID |
+
+**请求体**:
+
+```json
+{
+  "name": "游戏频道"
+}
+```
+
+**响应**: 创建的分类对象
+
+### PUT /guilds/:guildId/channel-categories/:categoryId
+
+更新频道分类。
+
+**路径参数**:
+
+| 参数       | 类型   | 说明      |
+| ---------- | ------ | --------- |
+| guildId    | number | 服务器 ID |
+| categoryId | number | 分类 ID   |
+
+**请求体**:
+
+```json
+{
+  "name": "新名称"
+}
+```
+
+**响应**: 更新后的分类对象
+
+### DELETE /guilds/:guildId/channel-categories/:categoryId
+
+删除频道分类。
+
+**路径参数**:
+
+| 参数       | 类型   | 说明      |
+| ---------- | ------ | --------- |
+| guildId    | number | 服务器 ID |
+| categoryId | number | 分类 ID   |
+
+**响应**: `204 No Content`
+
+---
 
 ## 成员管理
 
@@ -194,12 +553,16 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **路径参数**:
 
-- `guildId` (number): 服务器 ID
+| 参数    | 类型   | 说明      |
+| ------- | ------ | --------- |
+| guildId | number | 服务器 ID |
 
 **查询参数**:
 
-- `after` (number, 可选): 从此用户 ID 之后开始
-- `limit` (number, 可选): 返回数量，默认 100，最大 1000
+| 参数  | 类型   | 必填 | 说明                          |
+| ----- | ------ | ---- | ----------------------------- |
+| after | number | 否   | 从此用户 ID 之后开始          |
+| limit | number | 否   | 返回数量，默认 100，最大 1000 |
 
 **响应示例**:
 
@@ -225,8 +588,10 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **路径参数**:
 
-- `guildId` (number): 服务器 ID
-- `userId` (number): 用户 ID
+| 参数    | 类型   | 说明      |
+| ------- | ------ | --------- |
+| guildId | number | 服务器 ID |
+| userId  | number | 用户 ID   |
 
 **响应示例**:
 
@@ -242,15 +607,213 @@ Authorization: Bearer YOUR_BOT_TOKEN
 }
 ```
 
+### DELETE /guilds/:guildId/members/:userId
+
+踢出成员。
+
+**路径参数**:
+
+| 参数    | 类型   | 说明      |
+| ------- | ------ | --------- |
+| guildId | number | 服务器 ID |
+| userId  | number | 用户 ID   |
+
+**响应**: `{ "success": true }`
+
+**触发事件**: `GUILD_MEMBER_REMOVE`
+
+### PUT /guilds/:guildId/members/:userId/mute
+
+禁言成员。
+
+**路径参数**:
+
+| 参数    | 类型   | 说明      |
+| ------- | ------ | --------- |
+| guildId | number | 服务器 ID |
+| userId  | number | 用户 ID   |
+
+**请求体**:
+
+```json
+{
+  "duration": 3600
+}
+```
+
+| 字段     | 类型   | 必填 | 说明                       |
+| -------- | ------ | ---- | -------------------------- |
+| duration | number | 是   | 禁言时长（秒），必须为正数 |
+
+**响应**: `{ "success": true }`
+
+### DELETE /guilds/:guildId/members/:userId/mute
+
+解除禁言。
+
+**路径参数**:
+
+| 参数    | 类型   | 说明      |
+| ------- | ------ | --------- |
+| guildId | number | 服务器 ID |
+| userId  | number | 用户 ID   |
+
+**响应**: `{ "success": true }`
+
+**触发事件**: `GUILD_MEMBER_UPDATE`
+
+### PUT /guilds/:guildId/members/:userId/nickname
+
+设置成员昵称。
+
+**路径参数**:
+
+| 参数    | 类型   | 说明      |
+| ------- | ------ | --------- |
+| guildId | number | 服务器 ID |
+| userId  | number | 用户 ID   |
+
+**请求体**:
+
+```json
+{
+  "nickname": "新昵称"
+}
+```
+
+| 字段     | 类型   | 必填 | 说明                                   |
+| -------- | ------ | ---- | -------------------------------------- |
+| nickname | string | 是   | 昵称，最多 32 字符；空字符串可清除昵称 |
+
+**响应**: `{ "success": true }`
+
+**触发事件**: `GUILD_MEMBER_UPDATE`
+
+---
+
+## 角色管理
+
+### GET /guilds/:guildId/roles
+
+获取服务器的角色列表。
+
+**路径参数**:
+
+| 参数    | 类型   | 说明      |
+| ------- | ------ | --------- |
+| guildId | number | 服务器 ID |
+
+**响应**: 角色数组
+
+### POST /guilds/:guildId/roles
+
+创建角色。
+
+**路径参数**:
+
+| 参数    | 类型   | 说明      |
+| ------- | ------ | --------- |
+| guildId | number | 服务器 ID |
+
+**请求体**:
+
+```json
+{
+  "name": "Moderator",
+  "permissions": 8,
+  "color": "#3498db"
+}
+```
+
+| 字段        | 类型   | 必填 | 说明       |
+| ----------- | ------ | ---- | ---------- |
+| name        | string | 是   | 角色名称   |
+| permissions | number | 否   | 权限位掩码 |
+| color       | string | 否   | 颜色值     |
+
+**响应**: 创建的角色对象
+
+### PUT /guilds/:guildId/roles/:roleId
+
+更新角色。
+
+**路径参数**:
+
+| 参数    | 类型   | 说明      |
+| ------- | ------ | --------- |
+| guildId | number | 服务器 ID |
+| roleId  | number | 角色 ID   |
+
+**请求体**（所有字段可选，支持部分更新）:
+
+```json
+{
+  "name": "Admin",
+  "permissions": 16,
+  "color": "#e74c3c"
+}
+```
+
+**响应**: 更新后的角色对象
+
+### DELETE /guilds/:guildId/roles/:roleId
+
+删除角色。
+
+**路径参数**:
+
+| 参数    | 类型   | 说明      |
+| ------- | ------ | --------- |
+| guildId | number | 服务器 ID |
+| roleId  | number | 角色 ID   |
+
+**响应**: `204 No Content`
+
+### POST /guilds/:guildId/roles/:roleId/assign/:userId
+
+为成员分配角色。
+
+**路径参数**:
+
+| 参数    | 类型   | 说明      |
+| ------- | ------ | --------- |
+| guildId | number | 服务器 ID |
+| roleId  | number | 角色 ID   |
+| userId  | number | 用户 ID   |
+
+**响应**: `204 No Content`
+
+**触发事件**: `GUILD_MEMBER_UPDATE`
+
+### POST /guilds/:guildId/roles/:roleId/remove/:userId
+
+移除成员角色。
+
+**路径参数**:
+
+| 参数    | 类型   | 说明      |
+| ------- | ------ | --------- |
+| guildId | number | 服务器 ID |
+| roleId  | number | 角色 ID   |
+| userId  | number | 用户 ID   |
+
+**响应**: `204 No Content`
+
+**触发事件**: `GUILD_MEMBER_UPDATE`
+
+---
+
 ## 私信管理
 
-### POST /users/:userId/dm
+### GET /users/:userId/dm
 
 创建或获取与用户的私信频道。
 
 **路径参数**:
 
-- `userId` (number): 用户 ID
+| 参数   | 类型   | 说明    |
+| ------ | ------ | ------- |
+| userId | number | 用户 ID |
 
 **响应示例**:
 
@@ -261,13 +824,15 @@ Authorization: Bearer YOUR_BOT_TOKEN
 }
 ```
 
-### POST /dm/channels/:channelId/messages
+### POST /dm/threads/:threadId/messages
 
 在私信频道中发送消息。
 
 **路径参数**:
 
-- `channelId` (number): 私信频道 ID
+| 参数     | 类型   | 说明        |
+| -------- | ------ | ----------- |
+| threadId | number | 私信线程 ID |
 
 **请求体**:
 
@@ -277,9 +842,347 @@ Authorization: Bearer YOUR_BOT_TOKEN
 }
 ```
 
-### GET /dm/channels/:channelId/messages
+### GET /dm/threads/:threadId/messages
 
-获取私信频道消息列表（查询参数同普通频道）。
+获取私信频道消息列表。
+
+**路径参数**:
+
+| 参数     | 类型   | 说明        |
+| -------- | ------ | ----------- |
+| threadId | number | 私信线程 ID |
+
+**查询参数**: 同 `GET /channels/:channelId/messages`
+
+### PUT /dm/messages/:messageId
+
+编辑私信消息（仅限机器人自己发送的消息）。
+
+**路径参数**:
+
+| 参数      | 类型   | 说明    |
+| --------- | ------ | ------- |
+| messageId | number | 消息 ID |
+
+**请求体**:
+
+```json
+{
+  "content": "Updated DM content"
+}
+```
+
+**响应**: 编辑后的私信消息对象
+
+**触发事件**: `DM_MESSAGE_UPDATE`
+
+### DELETE /dm/messages/:messageId
+
+删除私信消息（仅限机器人自己发送的消息）。
+
+**路径参数**:
+
+| 参数      | 类型   | 说明    |
+| --------- | ------ | ------- |
+| messageId | number | 消息 ID |
+
+**响应**: `204 No Content`
+
+**触发事件**: `DM_MESSAGE_DELETE`
+
+---
+
+## 交互消息
+
+### GET /interactions
+
+获取用户发送给机器人的交互消息（隐藏消息，仅机器人可见）。
+
+**查询参数**:
+
+| 参数      | 类型   | 必填 | 说明                        |
+| --------- | ------ | ---- | --------------------------- |
+| channelId | number | 否   | 按频道过滤                  |
+| limit     | number | 否   | 返回数量，默认 50，最大 100 |
+| after     | number | 否   | 获取 ID 大于此值的消息      |
+| before    | number | 否   | 获取 ID 小于此值的消息      |
+
+**响应示例**:
+
+```json
+[
+  {
+    "id": 5001,
+    "channelId": 123,
+    "authorId": 1,
+    "content": "/help",
+    "createdAt": "2025-12-31T12:00:00Z",
+    "timestamp": 1735646400000,
+    "user": {
+      "id": 1,
+      "name": "username",
+      "avatar": "avatar/xxx.jpg",
+      "isBot": false
+    },
+    "guildId": 10
+  }
+]
+```
+
+---
+
+## 服务器管理
+
+### GET /guilds
+
+获取机器人所在的服务器列表（分页）。
+
+**查询参数**:
+
+| 参数     | 类型   | 必填 | 说明                                     |
+| -------- | ------ | ---- | ---------------------------------------- |
+| limit    | number | 否   | 返回数量，默认 10，最大 100              |
+| page     | number | 否   | 页码，默认 1（与 beforeId/afterId 互斥） |
+| beforeId | number | 否   | 游标分页：ID 小于此值                    |
+| afterId  | number | 否   | 游标分页：ID 大于此值                    |
+
+**响应示例（页码模式）**:
+
+```json
+{
+  "data": [
+    {
+      "id": 10,
+      "name": "My Server",
+      "ownerId": 1,
+      "icon": "covers/xxx.jpg"
+    }
+  ],
+  "total": 3,
+  "page": 1,
+  "limit": 10
+}
+```
+
+**响应示例（游标模式）**:
+
+```json
+{
+  "data": [...]
+}
+```
+
+---
+
+## 公告管理
+
+### GET /guilds/:guildId/announcements
+
+获取服务器公告列表（分页）。
+
+**路径参数**:
+
+| 参数    | 类型   | 说明      |
+| ------- | ------ | --------- |
+| guildId | number | 服务器 ID |
+
+**查询参数**:
+
+| 参数     | 类型   | 必填 | 说明                        |
+| -------- | ------ | ---- | --------------------------- |
+| limit    | number | 否   | 返回数量，默认 10，最大 100 |
+| page     | number | 否   | 页码，默认 1                |
+| beforeId | number | 否   | 游标分页                    |
+| afterId  | number | 否   | 游标分页                    |
+
+**响应示例**:
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "guildId": 10,
+      "authorId": 1,
+      "title": "Welcome",
+      "content": "Welcome to the server!",
+      "isPinned": true,
+      "createdAt": "2025-12-31T12:00:00Z"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 5,
+    "hasMore": false
+  }
+}
+```
+
+### POST /guilds/:guildId/announcements
+
+创建公告。
+
+**路径参数**:
+
+| 参数    | 类型   | 说明      |
+| ------- | ------ | --------- |
+| guildId | number | 服务器 ID |
+
+**请求体**:
+
+```json
+{
+  "title": "重要通知",
+  "content": "公告内容...",
+  "images": [
+    {
+      "path": "guild-chat-files/img.png",
+      "url": "guild-chat-files/img.png"
+    }
+  ]
+}
+```
+
+| 字段    | 类型   | 必填 | 说明                |
+| ------- | ------ | ---- | ------------------- |
+| title   | string | 是   | 公告标题            |
+| content | string | 是   | 公告内容            |
+| images  | array  | 否   | 图片列表，最多 9 张 |
+
+**响应**: 创建的公告对象
+
+### GET /announcements/:announcementId
+
+获取公告详情。
+
+**路径参数**:
+
+| 参数           | 类型   | 说明    |
+| -------------- | ------ | ------- |
+| announcementId | number | 公告 ID |
+
+**响应**: 公告对象
+
+### PUT /announcements/:announcementId
+
+更新公告。
+
+**路径参数**:
+
+| 参数           | 类型   | 说明    |
+| -------------- | ------ | ------- |
+| announcementId | number | 公告 ID |
+
+**请求体**（所有字段可选）:
+
+```json
+{
+  "title": "新标题",
+  "content": "更新内容",
+  "images": []
+}
+```
+
+**响应**: 更新后的公告对象
+
+### DELETE /announcements/:announcementId
+
+删除公告。
+
+**路径参数**:
+
+| 参数           | 类型   | 说明    |
+| -------------- | ------ | ------- |
+| announcementId | number | 公告 ID |
+
+**响应**: `204 No Content`
+
+### PUT /announcements/:announcementId/pin
+
+置顶公告。
+
+**路径参数**:
+
+| 参数           | 类型   | 说明    |
+| -------------- | ------ | ------- |
+| announcementId | number | 公告 ID |
+
+**响应**: 更新后的公告对象
+
+### DELETE /announcements/:announcementId/pin
+
+取消置顶。
+
+**路径参数**:
+
+| 参数           | 类型   | 说明    |
+| -------------- | ------ | ------- |
+| announcementId | number | 公告 ID |
+
+**响应**: `204 No Content`
+
+---
+
+## 加入申请
+
+### GET /guilds/:guildId/join-requests
+
+获取服务器的加入申请列表。
+
+**路径参数**:
+
+| 参数    | 类型   | 说明      |
+| ------- | ------ | --------- |
+| guildId | number | 服务器 ID |
+
+**查询参数**:
+
+| 参数  | 类型   | 必填 | 说明                        |
+| ----- | ------ | ---- | --------------------------- |
+| page  | number | 否   | 页码，默认 1                |
+| limit | number | 否   | 返回数量，默认 20，最大 100 |
+
+**响应示例**:
+
+```json
+{
+  "data": [...],
+  "total": 5,
+  "page": 1,
+  "limit": 20
+}
+```
+
+### POST /guilds/:guildId/join-requests/:requestId/approve
+
+批准加入申请。
+
+**路径参数**:
+
+| 参数      | 类型   | 说明      |
+| --------- | ------ | --------- |
+| guildId   | number | 服务器 ID |
+| requestId | number | 申请 ID   |
+
+**响应**: `{ "success": true }`
+
+**触发事件**: `GUILD_MEMBER_ADD`
+
+### POST /guilds/:guildId/join-requests/:requestId/reject
+
+拒绝加入申请。
+
+**路径参数**:
+
+| 参数      | 类型   | 说明      |
+| --------- | ------ | --------- |
+| guildId   | number | 服务器 ID |
+| requestId | number | 申请 ID   |
+
+**响应**: `{ "success": true }`
+
+---
 
 ## 文件上传
 
@@ -292,136 +1195,44 @@ Authorization: Bearer YOUR_BOT_TOKEN
 - 单文件最大 15 MB
 - 每日配额：80 GB
 - 每月配额：2000 GB
-- 每月无限额度：10GB
 
 **请求方式**: `multipart/form-data`
 
-**例子**:
+**表单字段**:
 
-```ts
-import axios from 'axios'
-import FormData from 'form-data'
+| 字段          | 类型   | 必填 | 说明            |
+| ------------- | ------ | ---- | --------------- |
+| file          | File   | 是   | 文件内容        |
+| channelId     | string | 否   | 关联频道 ID     |
+| threadId      | string | 否   | 关联私聊线程 ID |
+| messageId     | string | 否   | 关联消息 ID     |
+| groupThreadId | string | 否   | 关联群聊线程 ID |
 
-// 请求参数
-type ExtraParams = {
-  // 可选 频道、线程、群聊
-  channelId?: string | number
-  threadId?: string | number
-  messageId?: string | number
-  groupThreadId?: string | number
-}
+**响应示例**:
 
-/**
- * 文件信息接口
- */
-interface FileInfo {
-  path: string // 文件路径
-  url: string // 访问地址
-  // 需要拼接成可访问路径 `https://bubble-oss-files.alemonjs.com/${url}`
-  category: string // 文件类型
-  size: number // 文件大小
-  contentType: string // MIME类型
-  filename: string // 文件名
-  channelId: string // 频道ID
-  threadId: string // 线程ID
-  groupThreadId: string // 群组线程ID
-  messageId: string // 消息ID
-  width?: number // 宽度（图片/视频）
-  height?: number // 高度（图片/视频）
-}
-
-/**
- * 上传响应接口
- */
-interface UploadResponse {
-  data: {
-    file: FileInfo
+```json
+{
+  "file": {
+    "path": "guild-chat-files/xxx.png",
+    "url": "guild-chat-files/xxx.png",
+    "category": "image",
+    "size": 102400,
+    "contentType": "image/png",
+    "filename": "photo.png",
+    "width": 800,
+    "height": 600
   }
 }
-
-/**
- * 上传配置接口
- */
-interface UploadConfig {
-  token: string
-  request_proxy?: string
-  request_config?: Record<string, any>
-}
-
-/**
- * ============ 单例文件服务 ============
- * 萌新直接用，不用管new
- */
-class FileService {
-  private static instance: FileService
-  private baseURL = 'https://bubble.alemonjs.com/api/bot/v1'
-
-  private constructor() {}
-
-  // 获取单例
-  static getInstance(): FileService {
-    if (!FileService.instance) {
-      FileService.instance = new FileService()
-    }
-    return FileService.instance
-  }
-
-  /**
-   * 上传文件
-   * @param file 文件对象 (Buffer/Stream)
-   * @param filename 文件名
-   * @param extra 额外参数 (channelId/threadId/messageId)
-   */
-  async upload(
-    file: File,
-    filename?: string,
-    extra?: ExtraParams = {}
-  ) {
-    // 1. 创建FormData
-    const form = new FormData()
-    form.append('file', file, filename || 'file')
-
-    if (extra.channelId)
-      form.append('channelId', String(extra.channelId))
-    if (extra.threadId)
-      form.append('threadId', String(extra.threadId))
-    if (extra.messageId)
-      form.append('messageId', String(extra.messageId))
-    if (extra.groupThreadId)
-      form.append(
-        'groupThreadId',
-        String(extra.groupThreadId)
-      )
-
-    // 2. 获取配置（这里改成你的配置获取方式）
-    const config: UploadConfig = {
-      token: 'your-token' // 改成从环境变量/配置读取
-    }
-
-    // 3. 创建请求客户端
-    const client = axios.create({
-      baseURL: this.baseURL,
-      timeout: 60000,
-      headers: {
-        Authorization: `Bearer ${config.token}`,
-        ...form.getHeaders()
-      },
-      ...(config.request_config || {})
-    })
-
-    // 5. 发送请求
-    const response = await client.post<UploadResponse>(
-      '/files/upload',
-      form
-    )
-    return response.data
-  }
-}
-
-const fileService = FileService.getInstance()
-
-export default fileService
 ```
+
+:::tip 文件访问
+上传成功后，可通过以下方式拼接完整 URL：
+
+```
+https://bubble-oss-files.alemonjs.com/{file.url}
+```
+
+:::
 
 ### GET /files/quota
 
@@ -438,25 +1249,25 @@ export default fileService
 }
 ```
 
+---
+
 ## 错误响应
 
-**响应格式**:
+所有接口在出错时返回统一格式：
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMIT_EXCEEDED",
-    "message": "Rate limit exceeded"
-  }
+  "error": "错误描述信息"
 }
 ```
 
-**常见错误码**:
+**常见 HTTP 状态码**:
 
-| HTTP 状态码 | 错误码              | 说明             |
-| ----------- | ------------------- | ---------------- |
-| 401         | UNAUTHORIZED        | Token 无效或过期 |
-| 403         | FORBIDDEN           | 无权限执行此操作 |
-| 404         | NOT_FOUND           | 资源不存在       |
-| 429         | RATE_LIMIT_EXCEEDED | 超过速率限制     |
-| 500         | INTERNAL_ERROR      | 服务器内部错误   |
+| 状态码 | 说明             |
+| ------ | ---------------- |
+| 400    | 请求参数错误     |
+| 401    | Token 无效或过期 |
+| 403    | 无权限执行此操作 |
+| 404    | 资源不存在       |
+| 429    | 超过速率限制     |
+| 500    | 服务器内部错误   |
