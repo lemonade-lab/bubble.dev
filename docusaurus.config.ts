@@ -67,7 +67,7 @@ export default defineConfig({
           title: '更多',
           items: [
             {
-              label: '官方机器人框架',
+              label: '官方推荐框架',
               href: 'https://github.com/lemonade-lab/alemonjs'
             }
           ]

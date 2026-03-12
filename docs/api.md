@@ -8,9 +8,17 @@ sidebar_position: 7
 
 ## 基础信息
 
-**Base URL**: `https://bubble.alemonjs.com/api/bot/v1`
+**Base URL**:
 
-**Base File URL**: `https://bubble-oss-files.alemonjs.com`
+```
+https://bubble.alemonjs.com/api/bot/v1
+```
+
+**Base File URL**:
+
+```
+https://bubble-oss-files.alemonjs.com
+```
 
 **认证方式**: `Authorization: Bearer YOUR_BOT_TOKEN`
 
@@ -25,9 +33,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 ## 机器人信息
 
-### GET /me
+### 获取机器人信息
 
-获取当前机器人信息。
+```
+GET /me
+```
 
 **响应示例**:
 
@@ -49,9 +59,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 ## 消息管理
 
-### POST /channels/:channelId/messages
+### 发送频道消息
 
-在频道中发送消息。
+```
+POST /channels/:channelId/messages
+```
 
 **路径参数**:
 
@@ -123,9 +135,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 }
 ```
 
-### GET /channels/:channelId/messages
+### 获取频道消息列表
 
-获取频道消息列表（分页）。
+```
+GET /channels/:channelId/messages
+```
 
 **路径参数**:
 
@@ -157,9 +171,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 }
 ```
 
-### GET /channels/:channelId/messages/:messageId
+### 获取单条消息
 
-获取单条消息。
+```
+GET /channels/:channelId/messages/:messageId
+```
 
 **路径参数**:
 
@@ -183,9 +199,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 }
 ```
 
-### PUT /channels/:channelId/messages/:messageId
+### 编辑频道消息
 
-编辑消息（仅限机器人自己发送的消息）。
+```
+PUT /channels/:channelId/messages/:messageId
+```
 
 **路径参数**:
 
@@ -204,9 +222,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **响应**: 编辑后的消息对象
 
-### DELETE /channels/:channelId/messages/:messageId
+### 删除频道消息
 
-删除消息（仅限机器人自己发送的消息）。
+```
+DELETE /channels/:channelId/messages/:messageId
+```
 
 **路径参数**:
 
@@ -217,9 +237,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **响应**: `204 No Content`
 
-### POST /channels/:channelId/messages/batch-delete
+### 批量删除频道消息
 
-批量删除频道消息（仅限机器人自己发送的消息）。
+```
+POST /channels/:channelId/messages/batch-delete
+```
 
 **路径参数**:
 
@@ -250,9 +272,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 ## 表态 (Reactions)
 
-### GET /channels/:channelId/messages/:messageId/reactions
+### 获取消息表态
 
-获取消息的所有表态。
+```
+GET /channels/:channelId/messages/:messageId/reactions
+```
 
 **路径参数**:
 
@@ -270,9 +294,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 ]
 ```
 
-### PUT /channels/:channelId/messages/:messageId/reactions/:emoji
+### 添加表态
 
-添加表态。
+```
+PUT /channels/:channelId/messages/:messageId/reactions/:emoji
+```
 
 **路径参数**:
 
@@ -286,9 +312,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **触发事件**: `MESSAGE_REACTION_ADD`
 
-### DELETE /channels/:channelId/messages/:messageId/reactions/:emoji
+### 移除表态
 
-移除表态。
+```
+DELETE /channels/:channelId/messages/:messageId/reactions/:emoji
+```
 
 **路径参数**:
 
@@ -306,9 +334,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 ## 精华消息 (Pins)
 
-### GET /channels/:channelId/pins
+### 获取精华消息列表
 
-获取频道的精华消息列表。
+```
+GET /channels/:channelId/pins
+```
 
 **路径参数**:
 
@@ -318,9 +348,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **响应**: 精华消息数组
 
-### POST /channels/:channelId/pins
+### 设为精华消息
 
-设为精华消息。
+```
+POST /channels/:channelId/pins
+```
 
 **路径参数**:
 
@@ -340,9 +372,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **触发事件**: `MESSAGE_PIN`
 
-### DELETE /channels/:channelId/pins/:messageId
+### 取消精华
 
-取消精华。
+```
+DELETE /channels/:channelId/pins/:messageId
+```
 
 **路径参数**:
 
@@ -359,9 +393,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 ## 频道管理
 
-### GET /guilds/:guildId/channels
+### 获取频道列表
 
-获取服务器的频道列表。
+```
+GET /guilds/:guildId/channels
+```
 
 **路径参数**:
 
@@ -384,9 +420,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 ]
 ```
 
-### GET /channels/:channelId
+### 获取频道详情
 
-获取频道详细信息。
+```
+GET /channels/:channelId
+```
 
 **路径参数**:
 
@@ -408,9 +446,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 }
 ```
 
-### POST /guilds/:guildId/channels
+### 创建频道
 
-创建频道。
+```
+POST /guilds/:guildId/channels
+```
 
 **路径参数**:
 
@@ -440,9 +480,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **响应**: 创建的频道对象
 
-### PUT /channels/:channelId/settings
+### 更新频道信息
 
-更新频道信息。
+```
+PUT /channels/:channelId/settings
+```
 
 **路径参数**:
 
@@ -461,9 +503,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **响应**: `{ "success": true }`
 
-### DELETE /channels/:channelId
+### 删除频道
 
-删除频道。
+```
+DELETE /channels/:channelId
+```
 
 **路径参数**:
 
@@ -477,9 +521,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 ## 频道分类
 
-### GET /guilds/:guildId/channel-categories
+### 获取频道分类列表
 
-获取服务器的频道分类列表。
+```
+GET /guilds/:guildId/channel-categories
+```
 
 **路径参数**:
 
@@ -489,9 +535,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **响应**: 分类数组
 
-### POST /guilds/:guildId/channel-categories
+### 创建频道分类
 
-创建频道分类。
+```
+POST /guilds/:guildId/channel-categories
+```
 
 **路径参数**:
 
@@ -509,9 +557,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **响应**: 创建的分类对象
 
-### PUT /guilds/:guildId/channel-categories/:categoryId
+### 更新频道分类
 
-更新频道分类。
+```
+PUT /guilds/:guildId/channel-categories/:categoryId
+```
 
 **路径参数**:
 
@@ -530,9 +580,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **响应**: 更新后的分类对象
 
-### DELETE /guilds/:guildId/channel-categories/:categoryId
+### 删除频道分类
 
-删除频道分类。
+```
+DELETE /guilds/:guildId/channel-categories/:categoryId
+```
 
 **路径参数**:
 
@@ -547,9 +599,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 ## 成员管理
 
-### GET /guilds/:guildId/members
+### 获取成员列表
 
-获取服务器成员列表（分页）。
+```
+GET /guilds/:guildId/members
+```
 
 **路径参数**:
 
@@ -582,9 +636,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 }
 ```
 
-### GET /guilds/:guildId/members/:userId
+### 获取成员信息
 
-获取特定成员信息。
+```
+GET /guilds/:guildId/members/:userId
+```
 
 **路径参数**:
 
@@ -607,9 +663,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 }
 ```
 
-### DELETE /guilds/:guildId/members/:userId
+### 踢出成员
 
-踢出成员。
+```
+DELETE /guilds/:guildId/members/:userId
+```
 
 **路径参数**:
 
@@ -622,9 +680,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **触发事件**: `GUILD_MEMBER_REMOVE`
 
-### PUT /guilds/:guildId/members/:userId/mute
+### 禁言成员
 
-禁言成员。
+```
+PUT /guilds/:guildId/members/:userId/mute
+```
 
 **路径参数**:
 
@@ -647,9 +707,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **响应**: `{ "success": true }`
 
-### DELETE /guilds/:guildId/members/:userId/mute
+### 解除禁言
 
-解除禁言。
+```
+DELETE /guilds/:guildId/members/:userId/mute
+```
 
 **路径参数**:
 
@@ -662,9 +724,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **触发事件**: `GUILD_MEMBER_UPDATE`
 
-### PUT /guilds/:guildId/members/:userId/nickname
+### 设置成员昵称
 
-设置成员昵称。
+```
+PUT /guilds/:guildId/members/:userId/nickname
+```
 
 **路径参数**:
 
@@ -693,9 +757,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 ## 角色管理
 
-### GET /guilds/:guildId/roles
+### 获取角色列表
 
-获取服务器的角色列表。
+```
+GET /guilds/:guildId/roles
+```
 
 **路径参数**:
 
@@ -705,9 +771,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **响应**: 角色数组
 
-### POST /guilds/:guildId/roles
+### 创建角色
 
-创建角色。
+```
+POST /guilds/:guildId/roles
+```
 
 **路径参数**:
 
@@ -733,9 +801,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **响应**: 创建的角色对象
 
-### PUT /guilds/:guildId/roles/:roleId
+### 更新角色
 
-更新角色。
+```
+PUT /guilds/:guildId/roles/:roleId
+```
 
 **路径参数**:
 
@@ -756,9 +826,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **响应**: 更新后的角色对象
 
-### DELETE /guilds/:guildId/roles/:roleId
+### 删除角色
 
-删除角色。
+```
+DELETE /guilds/:guildId/roles/:roleId
+```
 
 **路径参数**:
 
@@ -769,9 +841,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **响应**: `204 No Content`
 
-### POST /guilds/:guildId/roles/:roleId/assign/:userId
+### 分配角色
 
-为成员分配角色。
+```
+POST /guilds/:guildId/roles/:roleId/assign/:userId
+```
 
 **路径参数**:
 
@@ -785,9 +859,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **触发事件**: `GUILD_MEMBER_UPDATE`
 
-### POST /guilds/:guildId/roles/:roleId/remove/:userId
+### 移除成员角色
 
-移除成员角色。
+```
+POST /guilds/:guildId/roles/:roleId/remove/:userId
+```
 
 **路径参数**:
 
@@ -805,9 +881,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 ## 私信管理
 
-### GET /users/:userId/dm
+### 获取私信频道
 
-创建或获取与用户的私信频道。
+```
+GET /users/:userId/dm
+```
 
 **路径参数**:
 
@@ -824,9 +902,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 }
 ```
 
-### POST /dm/threads/:threadId/messages
+### 发送私信消息
 
-在私信频道中发送消息。
+```
+POST /dm/threads/:threadId/messages
+```
 
 **路径参数**:
 
@@ -842,9 +922,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 }
 ```
 
-### GET /dm/threads/:threadId/messages
+### 获取私信消息列表
 
-获取私信频道消息列表。
+```
+GET /dm/threads/:threadId/messages
+```
 
 **路径参数**:
 
@@ -854,9 +936,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **查询参数**: 同 `GET /channels/:channelId/messages`
 
-### PUT /dm/messages/:messageId
+### 编辑私信消息
 
-编辑私信消息（仅限机器人自己发送的消息）。
+```
+PUT /dm/messages/:messageId
+```
 
 **路径参数**:
 
@@ -876,9 +960,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **触发事件**: `DM_MESSAGE_UPDATE`
 
-### DELETE /dm/messages/:messageId
+### 删除私信消息
 
-删除私信消息（仅限机器人自己发送的消息）。
+```
+DELETE /dm/messages/:messageId
+```
 
 **路径参数**:
 
@@ -894,9 +980,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 ## 交互消息
 
-### GET /interactions
+### 获取交互消息
 
-获取用户发送给机器人的交互消息（隐藏消息，仅机器人可见）。
+```
+GET /interactions
+```
 
 **查询参数**:
 
@@ -933,9 +1021,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 ## 服务器管理
 
-### GET /guilds
+### 获取服务器列表
 
-获取机器人所在的服务器列表（分页）。
+```
+GET /guilds
+```
 
 **查询参数**:
 
@@ -976,9 +1066,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 ## 公告管理
 
-### GET /guilds/:guildId/announcements
+### 获取公告列表
 
-获取服务器公告列表（分页）。
+```
+GET /guilds/:guildId/announcements
+```
 
 **路径参数**:
 
@@ -1019,9 +1111,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 }
 ```
 
-### POST /guilds/:guildId/announcements
+### 创建公告
 
-创建公告。
+```
+POST /guilds/:guildId/announcements
+```
 
 **路径参数**:
 
@@ -1052,9 +1146,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **响应**: 创建的公告对象
 
-### GET /announcements/:announcementId
+### 获取公告详情
 
-获取公告详情。
+```
+GET /announcements/:announcementId
+```
 
 **路径参数**:
 
@@ -1064,9 +1160,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **响应**: 公告对象
 
-### PUT /announcements/:announcementId
+### 更新公告
 
-更新公告。
+```
+PUT /announcements/:announcementId
+```
 
 **路径参数**:
 
@@ -1086,9 +1184,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **响应**: 更新后的公告对象
 
-### DELETE /announcements/:announcementId
+### 删除公告
 
-删除公告。
+```
+DELETE /announcements/:announcementId
+```
 
 **路径参数**:
 
@@ -1098,9 +1198,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **响应**: `204 No Content`
 
-### PUT /announcements/:announcementId/pin
+### 置顶公告
 
-置顶公告。
+```
+PUT /announcements/:announcementId/pin
+```
 
 **路径参数**:
 
@@ -1110,9 +1212,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **响应**: 更新后的公告对象
 
-### DELETE /announcements/:announcementId/pin
+### 取消置顶
 
-取消置顶。
+```
+DELETE /announcements/:announcementId/pin
+```
 
 **路径参数**:
 
@@ -1126,9 +1230,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 ## 加入申请
 
-### GET /guilds/:guildId/join-requests
+### 获取加入申请列表
 
-获取服务器的加入申请列表。
+```
+GET /guilds/:guildId/join-requests
+```
 
 **路径参数**:
 
@@ -1154,9 +1260,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 }
 ```
 
-### POST /guilds/:guildId/join-requests/:requestId/approve
+### 批准加入申请
 
-批准加入申请。
+```
+POST /guilds/:guildId/join-requests/:requestId/approve
+```
 
 **路径参数**:
 
@@ -1169,9 +1277,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 **触发事件**: `GUILD_MEMBER_ADD`
 
-### POST /guilds/:guildId/join-requests/:requestId/reject
+### 拒绝加入申请
 
-拒绝加入申请。
+```
+POST /guilds/:guildId/join-requests/:requestId/reject
+```
 
 **路径参数**:
 
@@ -1186,9 +1296,11 @@ Authorization: Bearer YOUR_BOT_TOKEN
 
 ## 文件上传
 
-### POST /files/upload
+### 上传文件
 
-上传文件（图片、语音等）。
+```
+POST /files/upload
+```
 
 **限制**:
 
@@ -1234,9 +1346,11 @@ https://bubble-oss-files.alemonjs.com/{file.url}
 
 :::
 
-### GET /files/quota
+### 查询上传配额
 
-查询当前文件上传配额。
+```
+GET /files/quota
+```
 
 **响应示例**:
 
