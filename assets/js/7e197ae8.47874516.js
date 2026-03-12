@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkbubble_docs=self.webpackChunkbubble_docs||[]).push([[542],{3012:b=>{b.exports=JSON.parse('{"tags":[{"label":"\u66f4\u65b0","permalink":"/bubble.dev/blog/tags/\u66f4\u65b0","count":1}]}')}}]);
